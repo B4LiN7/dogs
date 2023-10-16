@@ -1,9 +1,8 @@
 import dogs from "./dogs.json";
 
-const table = document.getElementById("table");
-
 function drawTable(dogs_data) {
-  if (table.firstChild) {
+  const table = document.getElementById("table");
+  while (table.firstChild) {
     table.removeChild(table.lastChild);
   }
 
@@ -20,39 +19,72 @@ function drawTable(dogs_data) {
   });
 }
 
-drawTable(dogs);
+/* ---------------------------------------------------------------------------------------- */
 
+function f1a() {
+  return Array.from(dogs).sort((a, b) => a.nev.localeCompare(b.nev)).sort((a, b) => a.eletkor - b.eletkor);
+};
 
-console.log(
-  Array.from(dogs).sort((a, b) => a.nev.localeCompare(b.nev)).sort((a, b) => a.eletkor - b.eletkor)
-);
+function f1bConsole() {
+  console.log(dogs
+    .filter((dog) => dog.fajta == "Labrador")
+    .map((dog) => `${dog.nev} (${dog.eletkor} éves)`)
+  );
+  
+  console.log(dogs
+    .filter((dog) => dog.fajta == "Labrador")
+    .map((dog) => ({nev: dog.nev, eletkor: dog.eletkor}))
+  );
+}
 
-console.log(dogs
-  .filter((dog) => dog.fajta == "Labrador")
-  .map((dog) => `${dog.nev} (${dog.eletkor} éves)`)
-);
+function f1b() {
+  return dogs.filter((dog) => dog.fajta == "Labrador");ű
+};
 
-console.log(dogs
-  .filter((dog) => dog.fajta == "Labrador")
-  .map((dog) => ({nev: dog.nev, eletkor: dog.eletkor}))
-);
-
-console.log(
-  dogs.filter((dog) => dog.eletkor > 10).map(dog => `${dog.gazda_neve}`)
-);
+function f1c() {
+  console.log(
+    dogs.filter((dog) => dog.eletkor > 10).map(dog => `${dog.gazda_neve}`)
+  );
+};
 
 // Fajta szerint csoportosítva, a kutyák számát. Az eredményt lista helyett objektumban is tárolhatod, ekkor az objektum adattagjai a fajta nevek legyenek.
-/*
-let fajtak = []
 
-dogs.forEach(dog => {
- if (fajtak.includes({nev: dog.fajta})) {
-  fajtak[fajtak.indexOf({nev: dog.fajta})].num++;
- }
- else {
-  fajtak.push({nev: dog.fajta, num: 1});
- }
-});
-console.log(fajtak);
+function f1d() {
+  let fajtak = [];
 
-*/
+  dogs.forEach(dog => {
+    if (fajtak.some(fajta => fajta.nev == dog.fajta)) {
+      let index = fajtak.findIndex(fajta => fajta.nev == dog.fajta);
+      fajtak[index].num++;
+    }
+    else {
+      fajtak.push({nev: dog.fajta, num: 1});
+    }
+  });
+  console.log(fajtak);
+}
+
+// A kutyák átlagéletkorát. Az összeg kiszámítása egyetlen utasítás legyen. Itt nem listában kell tárolni az eredményt.
+
+function f1e() {
+  console.log(
+    dogs.reduce((total, next) => total+next.eletkor, 0) / dogs.length
+  );
+}
+
+/* ---------------------------------------------------------------------------------------- */
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("btnDogs").addEventListener("click", () => {
+    drawTable(dogs);
+  });
+  document.getElementById("btnF1a").addEventListener("click", () => {
+    drawTable(f1a())
+  });
+  document.getElementById("btnF1b").addEventListener("click", () => {
+    drawTable(f1b())
+  });
+  f1bConsole();
+  f1c();
+  f1e();
+})
