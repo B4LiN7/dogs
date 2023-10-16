@@ -19,6 +19,19 @@ function drawTable(dogs_data) {
   });
 }
 
+function drawList(dogs_data) {
+  const list = document.getElementById("list");
+  while (list.firstChild) {
+    list.removeChild(list.lastChild);
+  }
+
+  dogs_data.forEach(dog => {
+    list.innerHTML += `
+      <li>${dog}</li>
+    `
+  })
+}
+
 /* ---------------------------------------------------------------------------------------- */
 
 function f1a() {
@@ -38,7 +51,10 @@ function f1bConsole() {
 }
 
 function f1b() {
-  return dogs.filter((dog) => dog.fajta == "Labrador");ű
+  const dog_labrador = dogs
+    .filter((dog) => dog.fajta == "Labrador")
+    .map((dog) => `${dog.nev} (${dog.eletkor} éves)`);
+  return dog_labrador;
 };
 
 function f1c() {
@@ -79,10 +95,10 @@ document.addEventListener("DOMContentLoaded", () => {
     drawTable(dogs);
   });
   document.getElementById("btnF1a").addEventListener("click", () => {
-    drawTable(f1a())
+    drawTable(f1a());
   });
   document.getElementById("btnF1b").addEventListener("click", () => {
-    drawTable(f1b())
+    drawList(f1b());
   });
   f1bConsole();
   f1c();
