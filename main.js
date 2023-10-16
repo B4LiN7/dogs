@@ -58,9 +58,7 @@ function f1b() {
 };
 
 function f1c() {
-  console.log(
-    dogs.filter((dog) => dog.eletkor > 10).map(dog => `${dog.gazda_neve}`)
-  );
+  return dogs.filter((dog) => dog.eletkor > 10).map(dog => `${dog.gazda_neve}`);
 };
 
 // Fajta szerint csoportosítva, a kutyák számát. Az eredményt lista helyett objektumban is tárolhatod, ekkor az objektum adattagjai a fajta nevek legyenek.
@@ -100,7 +98,8 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("btnF1b").addEventListener("click", () => {
     drawList(f1b());
   });
-  f1bConsole();
-  f1c();
+  document.getElementById("btnF1c").addEventListener("click", () => {
+    drawList(f1c());
+  });
   f1e();
 })
